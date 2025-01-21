@@ -6,8 +6,7 @@ import base64
 import os
 
 
-# key = "834E426FA38AAA39"  # Key ขนาด 16 bytes
-# plaintext = "วิศวะกับ 3 เทอม"
+
 
 app = Flask(__name__)
 app.secret_key = "super_secret_key"  # ใช้สำหรับจัดการ session
@@ -78,8 +77,7 @@ QUESTIONS = [
     "type": "AES",
     "question": "คำตอบถูกซ่อนในข้อความที่เข้ารหัส ผู้เล่นต้องหา Key เพื่อถอดรหัส",
     "data": lambda: {
-        "answer":"2"
-        # "answer": "Flag{1}"  # แทนที่ด้วยคำตอบที่ถูกต้องหลังถอดรหัส
+        "answer":"Flag(CyberSUT)"
     }
     },
     {
@@ -87,7 +85,7 @@ QUESTIONS = [
     "type": "RSA",
     "question": "ถอดรหัสข้อความในไฟล์ CipherText.pdf ด้วย PublicKey.pdf",
     "data": lambda: {
-        "answer":"3"
+        "answer":"Flag(ENG4054AA-06)"
         # "answer": "Flag{YOUR_ANSWER}"  # แทนด้วยคำตอบที่ได้หลังถอดรหัส
     }
     },
@@ -98,13 +96,13 @@ QUESTIONS = [
     "data": lambda: {
         "key_hint": (
             "Key: 256 bit\n"
-            "Mode: 43 46 42 (ฐาน 16)\n"
+            "Mode: 43 54 42 (ฐาน 16)\n"
             "Hash: MD5\n"
             "อย่าลืมเปลี่ยนชื่อไฟล์เป็น .png หลังถอดรหัสสำเร็จ"
         ),
         "hint": "ใช้ AES-256 และเว็บไซต์ https://emn178.github.io/online-tools/aes/decrypt/ เพื่อถอดรหัส",
         "file_name": "Answer.dat",  # ไฟล์เข้ารหัสที่ผู้เล่นต้องถอดรหัส
-        "answer":"4"
+        "answer":"Flag(วิไลศิลา)"
         # "answer": "Flag{YOUR_ANSWER}"  # แทนที่ด้วยคำตอบที่ได้จากการถอดรหัสไฟล์
     }
 }
@@ -790,18 +788,25 @@ def ctf_challenge():
 
     if question_data["id"] == 1:
         html_template += f"""
+            <p>-----------------------------------------------------------------------------------------------</p>
             <p><b>ลองค้นหาวันที่ที่เกี่ยวข้องกับการเริ่มต้นของ มทส. รูปแบบ DDMMYYYY แล้วนำไปแปลงเป็นรหัส hash แบบ SHA-256</b></p>
             <p>เว็บไซต์: <a href="https://emn178.github.io/online-tools/sha256.html" target="_blank">Online hash calculator</a></p>
+            <p>-----------------------------------------------------------------------------------------------</p>
             <p>รูปแบบคำตอบ: "Flag(Your_Answer)"</p>
         """
     elif question_data["id"] == 2:
         html_template += f"""
             <p>ข้อความถูกเข้ารหัสไว้ในรูปแบบ Base64: <b>h5HY9Wyh/3u426gjUX6zOw==</b></p>
+            <p>-----------------------------------------------------------------------------------------------</p>
             <p>วิธีการเข้ารหัส: AES-128</p>
             <p>โหมด: CBC</p>
             <p>Initialization Vector (IV): <b>58C7C87AD161ABBD</b></p>
-            <p>คำใบ้สำหรับกู้คืนคีย์: <b>834E4__FA38AAA3_</b> (รหัสหายไป 3 ตัว)</p>
+            <p>คำใบ้สำหรับกู้คืนคีย์: <b>834E4__FA38AAA39</b> (รหัสหายไป 2 ตัว)</p>
+            <ul>
+                <li><a href="static/images/image2.png" download>ดาวน์โหลด รูปไขปริศนา.pdf</a></li>
+            </ul>
             <p>เว็บไซต์: <a href="https://www.devglan.com/online-tools/aes-encryption-decryption" target="_blank">online-tools/aes</a></p>
+            <p>-----------------------------------------------------------------------------------------------</p>
             <p>รูปแบบคำตอบ: "Flag(Your_Answer)"</p>
         """
     elif question_data["id"] == 3:
@@ -821,11 +826,12 @@ def ctf_challenge():
             <p>-----------------------------------------------------------------------------------------------</p>
             <p>คุณต้องหา Public Key จากไฟล์ PublicKey.pdf และนำไปถอดรหัสไฟล์ CipherText.pdf ในไฟล์นั้นจะมี Answer และ Sign ให้นำทั้งสองส่วนมาต่อกันเพื่อสร้างรหัสผ่านสำหรับเข้าสู่ขั้นตอนถัดไป</p>
             
-            <p>รูปแบบคำตอบ: "Flag(Your_Answer)"</p>
+            <p>รูปแบบคำตอบ: "Flag(Your_Answer) โดยไม่มีเว้นวรรค"</p>
         """
     elif question_data["id"] == 4:
         html_template += f"""
             <p>คุณได้รับไฟล์ที่เข้ารหัส AES-256</p>
+            <p>-----------------------------------------------------------------------------------------------</p>
             <li><a href="static/images/Answer.dat" download>ดาวน์โหลด Answer.dat</a></li>
             <p>แนะนำ: <a href="https://emn178.github.io/online-tools/aes/decrypt/" target="_blank">AES Decrypt Tool</a></p>
             <p>คำใบ้: </p>
@@ -833,10 +839,11 @@ def ctf_challenge():
                 <li>Input type: File</li>
                 <li>File Name: เปลี่ยนชื่อไฟล์เป็น .png</li>
                 <li>Key: 256 bit</li>
-                <li>Mode: CBC (43 46 42 ฐาน 16)</li>
+                <li>Mode: : 43 54 42 ฐาน 16 </li>
                 <li>Hash: MD5</li>
             </ul>
-            <p>รูปแบบคำตอบ: "Flag(Your_Answer)"</p>
+            <p>-----------------------------------------------------------------------------------------------</p>
+            <p>รูปแบบคำตอบ: "Flag(Your_Answer) ภาษาไทย"</p>
         """
 
     html_template += """
